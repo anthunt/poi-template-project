@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anthunt.poi.demo.db.PoiDemoDAO">
+
+	<resultMap id="sheetResultMap" type="com.anthunt.poi.mapper.model.SheetDefinition">
+		<result column="SHEET_IDX" property="sheetIndex"/>
+		<result column="SHEET_NM" property="sheetName"/>
+		<result column="SHEET_TITLE" property="sheetTitle"/>
+		<result column="SKIP_YN" property="skipSheet"/>
+		<result column="EXPLAIN_SIZE" property="explainRowSize"/>
+		<result column="HEADER_SIZE" property="headerRowSize"/>
+	</resultMap>
+	
+	<resultMap id="columnResultMap" type="com.anthunt.poi.mapper.model.ColumnDefinition">
+		<result column="REQUIRED_YN" property="isRequired"/>                        
+		<result column="SAMPLE_VALUE" property="sampleValue"/>
+		<result column="DATA_CELL_TP" property="dataCellType"/>
+		<result column="NUMERIC_FORMAT_TP" property="numericFormatType"/>
+		<result column="COLUMN_FORMULA" property="columnFormula"/>
+		<result column="EXPLICITS_SQL" property="explicitSql" />
+	</resultMap>
+	
+	<resultMap id="columnConstResultMap" type="com.anthunt.poi.mapper.model.ColumnConstraintDefinition">
+		<result column="MIN" property="min"/>
+		<result column="MAX" property="max"/>
+		<result column="REG_EXP" property="regExp"/>
+	</resultMap>
+	
+	<resultMap id="explainCellResultMap" type="com.anthunt.poi.mapper.model.CellDefinition">
+	    <result column="EXPLAIN_VAL" property="value"/>
+	    <result column="EXPLAIN_CMNT" property="comment"/>
+	    <result column="ROW_MERGE_SIZE" property="rowMergeSize"/>
+	    <result column="CELL_MERGE_SIZE" property="cellMergeSize"/>
+	</resultMap>
+	
+	<resultMap id="headerCellResultMap" type="com.anthunt.poi.mapper.model.CellDefinition">
+		<result column="HEADER_VAL" property="value"/>
+	    <result column="HEADER_CMNT" property="comment"/>
+	    <result column="ROW_MERGE_SIZE" property="rowMergeSize"/>
+	    <result column="CELL_MERGE_SIZE" property="cellMergeSize"/>
+	    <result column="SKIP_REQUIRED_YN" property="skipRequired"/>
+	</resultMap>
+	
+	<resultMap id="dbColumnResultMap" type="com.anthunt.poi.mapper.model.DBColumnDefinition">
+		<result column="TABLE_NM" property="tableName"/>
+		<result column="COLUMN_NM" property="columnName"/>
+		<result column="DATA_TP" property="dataType"/>
+		<result column="PIVOT_COL_YN" property="isPivot"/>
+		<result column="PIVOT_COLUMN_NM" property="pivotColumnName"/>
+		<result column="PIVOT_COLUMN_VAL" property="pivotColumnValue"/>
+		<result column="PIVOT_COLUMN_PRIMARY_YN" property="isPivotPrimary"/>
+		<result column="PRIMARY_KEY_YN" property="isPrimary" />
+		<result column="DATE_FORMAT" property="dateFormat" />
+	</resultMap>
+	
+	<select id="getSheets" parameterType="int" resultMap="sheetResultMap">
+	<![CDATA[
+		SELECT X.SHEET_IDX
+		     , X.SHEET_NM
+		     , X.SHEET_TITLE
+		     , CASE X.SKIP_YN WHEN 'Y' THEN 'true'
+		                    ELSE 'false'
+			   END AS SKIP_YN
+			 , MAX(Y.CNT) AS EXPLAIN_SIZE
+		     , MAX(Z.CNT) AS HEADER_SIZE
+		FROM   SCMS_EX_SHEETS X
+		     LEFT JOIN (
+		     	SELECT SHEET_IDX
+		             , COUNT('X') CNT
+		        FROM   SCMS_EX_EXPLAINS
+		        WHERE  EXCEL_IDX = #{excelIdx}
+		        GROUP BY EXCEL_IDX, SHEET_IDX, COLUMN_IDX) Y
+		        ON ( Y.SHEET_IDX = X.SHEET_IDX )
+			 LEFT JOIN (
+			 	SELECT SHEET_IDX
+		             , COUNT('X') CNT
+		        FROM   SCMS_EX_HEADERS
+		        WHERE  EXCEL_IDX = #{excelIdx}
+		        GROUP BY EXCEL_IDX, SHEET_IDX, COLUMN_IDX) Z
+		        ON ( Z.SHEET_IDX = X.SHEET_IDX )
+		WHERE  X.EXCEL_IDX = #{excelIdx}
+		GROUP BY X.SHEET_IDX, X.SHEET_NM, X.SHEET_TITLE, X.SKIP_YN, X.USE_SAMPLE_DATA_YN
+		ORDER BY X.SHEET_IDX ASC
+	]]>
+	</select>
+	
+	<select id="getColumns" parameterType="com.anthunt.poi.mapper.model.DAOParams" resultMap="columnResultMap">
+	<![CDATA[
+		SELECT COLUMN_IDX
+		     , CASE REQUIRED_YN WHEN 'Y' THEN 'true'
+								ELSE 'false'
+			   END AS REQUIRED_YN                        
+		     , SAMPLE_VALUE
+		     , DATA_CELL_TP
+		     , NUMERIC_FORMAT_TP
+		     , COLUMN_FORMULA
+		     , EXPLICITS_SQL
+		FROM   SCMS_EX_COLUMNS
+		WHERE  EXCEL_IDX = #{excelIdx}
+		AND    SHEET_IDX = #{sheetIdx}
+		ORDER BY COLUMN_IDX ASC
+	]]>
+	</select>
+	
+	<select id="getColumnConst" parameterType="com.anthunt.poi.mapper.model.DAOParams" resultMap="columnConstResultMap">
+	<![CDATA[
+		SELECT MIN
+		     , MAX
+		     , REG_EXP
+		FROM   SCMS_EX_COLUMN_CONST
+		WHERE  EXCEL_IDX = #{excelIdx}
+		AND    SHEET_IDX = #{sheetIdx}
+		AND    COLUMN_IDX = #{columnIdx}
+	]]>
+	</select>
+	
+	<select id="getExplains" parameterType="com.anthunt.poi.mapper.model.DAOParams" resultMap="explainCellResultMap">
+	<![CDATA[
+		SELECT EXPLAIN_IDX
+		     , EXPLAIN_VAL
+		     , EXPLAIN_CMNT
+		     , ROW_MERGE_SIZE
+		     , CELL_MERGE_SIZE
+		FROM   SCMS_EX_EXPLAINS
+		WHERE  EXCEL_IDX = #{excelIdx}
+		AND    SHEET_IDX = #{sheetIdx}
+		AND    COLUMN_IDX = #{columnIdx}
+		ORDER BY EXPLAIN_IDX ASC
+	]]>
+	</select>
+	
+	<select id="getHeaders" parameterType="com.anthunt.poi.mapper.model.DAOParams" resultMap="headerCellResultMap">
+	<![CDATA[
+		SELECT HEADER_IDX
+		     , HEADER_VAL
+		     , HEADER_CMNT
+		     , ROW_MERGE_SIZE
+		     , CELL_MERGE_SIZE
+		     , CASE SKIP_REQUIRED_YN WHEN 'Y' THEN 'true'
+								ELSE 'false'
+			   END AS SKIP_REQUIRED_YN
+		FROM   SCMS_EX_HEADERS
+		WHERE  EXCEL_IDX = #{excelIdx}
+		AND    SHEET_IDX = #{sheetIdx}
+		AND    COLUMN_IDX = #{columnIdx}
+		ORDER BY HEADER_IDX ASC
+	]]>
+	</select>
+	
+	<select id="getDBColumns" parameterType="com.anthunt.poi.mapper.model.DAOParams" resultMap="dbColumnResultMap">
+	<![CDATA[
+		SELECT TABLE_NM
+		     , COLUMN_NM
+		     , DATA_TP
+		     , CASE PIVOT_COL_YN WHEN 'Y' THEN 'true'
+								ELSE 'false'
+			   END AS PIVOT_COL_YN
+			 , PIVOT_COLUMN_NM
+             , PIVOT_COLUMN_VAL
+             , CASE PIVOT_COLUMN_PRIMARY_YN WHEN 'Y' THEN 'true'
+             					ELSE 'false'
+               END AS PIVOT_COLUMN_PRIMARY_YN
+             , CASE PRIMARY_KEY_YN WHEN 'Y' THEN 'true'
+             					ELSE 'false'
+               END AS PRIMARY_KEY_YN
+		     , DATE_FORMAT
+		FROM   SCMS_EX_DB_COLUMNS
+		WHERE  EXCEL_IDX = #{excelIdx}
+		AND    SHEET_IDX = #{sheetIdx}
+		AND    COLUMN_IDX = #{columnIdx}
+		ORDER BY TABLE_NM, COLUMN_IDX ASC
+	]]>
+	</select>
+</mapper>
