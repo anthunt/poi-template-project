@@ -5,13 +5,13 @@ POI Template Generator Project
 ### What is this repository for? ###
 
 * Quick summary
-	POI 라이브러리를 사용한 엑셀 생성/읽기 작업을 지원하기 위한 라이브러리 프로젝트
+	Library project to support Excel creation / reading using POI library
 * Version
 	0.0.1
 
 ## Usage ##
 
-### Java 코드로 Excel Template 생성하는 방법 ###
+### How to create Excel Template with Java code ###
 		
 ```java
 package com.anthunt.poi.demo;
@@ -28,43 +28,43 @@ public class DemoExcelTemplate {
 	
 		ExcelSheets excelSheets = new ExcelSheets();
 		
-		// 프로그램에서 일기 및 쓰기 제외할 Sheet 설정.
+		// Sheet setting to exclude reading and writing from the program.
 		excelSheets.builder().setSheetName("Skip Sheet").setSkipSheet(true).build();		
 		excelSheets.builder()
-					.setSheetName("TestSheet1")			// 엑셀 하단 Sheet 명 설정
-					.setSheetTitle("01. Sheet Title")	// 엑셀 Sheet내 최상단 2번쨰 줄에 들어갈 제목 설정
-					.setUseSampleData(true)				// 샘플데이터를 포함하여 생성할지 여부 설정
-					.setExplainRowSize(1)				// 설명 줄 수
-					.setHeaderRowSize(2)				// 헤더 줄 수
-					.addExcelColumn()					// 컬럼 정보 추가
-			       		.addHeaderColumn()				// 해당 컬럼의 헤더 컬럼 정보 추가
-			       			.setValue("이름")			  // 헤더 컬럼 값 설정
-							// 엑셀 셀 메모 추가
-			                .setComment("만약 \"동명이인\" 이 있을경우 이름뒤에 숫자를 붙여 구분\nEx> ~ 중략 ~ 일) 로 구분\nEx>직접 6개월, 간접 6개월 근무한 경우: 홍길동(직), 홍길동(간)  으로 기재") 
-			                .setRowMergeSize(2)			// 헤더 셀 머지 설정
+					.setSheetName("TestSheet1")			// Sheet name setting at the bottom of Excel
+					.setSheetTitle("01. Sheet Title")	// Set the title to enter the top 2 line of Excel Sheet
+					.setUseSampleData(true)				// Set whether to generate including sample data
+					.setExplainRowSize(1)				// Row size of comments
+					.setHeaderRowSize(2)				// Row size of header
+					.addExcelColumn()					// Add column information
+			       		.addHeaderColumn()				// Add header column information of the column
+			       			.setValue("Name")			  // Header column value setting
+							// Add Excel cell notes
+			                .setComment("set name") 
+			                .setRowMergeSize(2)			// Header cell merge settings
 			                .and()
-			            .addExplainColumn()				// 컬럼 설명 컬럼 정보 추가
-			            	.setValue("-셀서식(일반)\n-사업참여자명(필수항목)")	// 설명 값 설정
+			            .addExplainColumn()				// Column Description Add column information
+			            	.setValue("-Cell Format (General) \ n-Business Participant Name (Required)")	// Setting Description Value
 			            	.and()
-			    		.setRequired(true)				// 필수 컬럼 여부 설정 - 필수 컬럼인 경우 헤더 명 위에 * 표시 됨.
-			    		.setCellType(CellType.STRING)	// 컬럼 타입 설정
-			    		.setSampleValue("홍길동")		 // 컬럼 샘플 값 설정
-			    		.addDBColumn()				   // DB 컬럼 매핑 정보 설정
-			    			.setTableName("TABLE_NAME1")	// 매핑 테이블 명 설정
-			    			.setColumnName("COLUMN1")		// 메핑 컬럼 명 설정
-			    			.setDataType(DBDataType.STRING)	// 매핑 컬럼 데이터 타입 설정
+			    		.setRequired(true)				// Required column setting-In case of required column, * is displayed above the header name.
+			    		.setCellType(CellType.STRING)	// Column type setting
+			    		.setSampleValue("Hong Gil Dong")		 // Setting column sample values
+			    		.addDBColumn()				   // DB column mapping information setting
+			    			.setTableName("TABLE_NAME1")	// Mapping table name setting
+			    			.setColumnName("COLUMN1")		// Mapping column name setting
+			    			.setDataType(DBDataType.STRING)	// Mapping column data type setting
 			    			.and()
 			    		.and()
 			    	.addExcelColumn()
 			    		.addHeaderColumn()
-			    			.setValue("구분2")
-			    			.setComment("정규직/계약직으로 기재")
+			    			.setValue("Category 2")
+			    			.setComment("Listed as Full-time / contracted")
 			    			.setRowMergeSize(2)
 			    			.and()
 			    		.setRequired(true)
 			    		.setCellType(CellType.STRING)
-			    		.setDataExplicits(new String[]{"정규직", "계약직"})	// 콤보 박스 선택 값 설정
-			    		.setSampleValue("정규직")
+			    		.setDataExplicits(new String[]{"Full-time", "contracted"})	// Set combo box selection value
+			    		.setSampleValue("Full-time")
 			    		.addDBColumn()
 			    			.setTableName("TABLE_NAME1")
 			    			.setColumnName("COLUMN5")
@@ -73,17 +73,17 @@ public class DemoExcelTemplate {
 			    		.and()
 			    	.addExcelColumn()
 			    		.addHeaderColumn()
-			    			.setValue("급여대장")
-			    			.setCellMergeSize(15)	// 헤더 컬럼 셀 머지 설정
-			    			.setSkipRequired(true)	// 필수 컬럼인 경우 헤더 컬럼에 * 표시를 생략할지 여부 설정
+			    			.setValue("Payroll")
+			    			.setCellMergeSize(15)	// Header column cell merge settings
+			    			.setSkipRequired(true)	// Whether to omit the * mark in the header column if it is a required column
 			    			.and()
 			    		.addHeaderColumn()
-			    			.setValue("구분3")
+			    			.setValue("Category 3")
 			    			.and()
 			    		.setRequired(true)
 			    		.setCellType(CellType.STRING)
-			    		.setDataExplicits(new String[]{"급여", "상여"})
-			    		.setSampleValue("급여")
+			    		.setDataExplicits(new String[]{"salary", "Bonus"})
+			    		.setSampleValue("salary")
 			    		.addDBColumn()
 			    			.setTableName("TABLE_NAME1")
 			    			.setColumnName("COLUMN6")
@@ -91,28 +91,28 @@ public class DemoExcelTemplate {
 			    			.and()
 			    		.and()
 						
-					~~~~~~~~~~~~~~~~~~~~~~~~~~~ 중 략 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+					~~~~~~~~~~~~~~~~~~~~~~~~~~~ Shorten ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 					
 			    	.addExcelColumn()
 			    		.addHeaderColumn()
 			    			.setValue("")
 			    			.and()
 			    		.addHeaderColumn()
-			    			.setValue("소계")
+			    			.setValue("Sub Total")
 			    			.and()
 			    		.setRequired(false)
 			    		.setCellType(CellType.FORMULA)
-			    		.setNumericFormatType(NumericFormatType.INTEGER)	// 숫자 형식 컬럼이 경우 숫자 형식 타입 설정
-			    		.setColumnFormula("SUM({COL8}{ROW}:{COL19}{ROW})")	// 계산식 컬럼 인 경우 계산 식 설정
+			    		.setNumericFormatType(NumericFormatType.INTEGER)	// In the case of a numeric format column, set the numeric format type
+			    		.setColumnFormula("SUM({COL8}{ROW}:{COL19}{ROW})")	// If it is a formula column, set the formula expression
 			    		.and()
 			    	.addExcelColumn()
 			    		.addHeaderColumn()
-			    			.setValue("비고")
+			    			.setValue("Summary")
 			    			.setRowMergeSize(2)
 			    			.and()
 			    		.setRequired(false)
 			    		.setCellType(CellType.STRING)
-			    		.setSampleValue("비고")
+			    		.setSampleValue("Summary")
 			    		.addDBColumn()
 			    			.setTableName("TABLE_NAME1")
 			    			.setColumnName("COLUMN10")
@@ -127,7 +127,7 @@ public class DemoExcelTemplate {
 }
 ```
 
-### Excel 파일 생성 ###
+### Creating Excel file ###
 ```java
 package com.anthunt.poi.demo;
 
@@ -162,7 +162,7 @@ public class DemoExcelCreation {
 }
 ```
 
-### 데이터를 포함하여 Excel 파일 생성 ###
+### Generating Excel file containing data ###
 ```java
 package com.anthunt.poi.demo;
 
@@ -208,13 +208,13 @@ public static void main(String[] args) throws InvalidFormatException, IOExceptio
 						
 						int cellIndex = 0;
 						
-						this.setCellData(excelRow, cellIndex++, "홍길동" + i);
-						this.setCellData(excelRow, cellIndex++, "대리");
-						this.setCellData(excelRow, cellIndex++, "직접");
-						this.setCellData(excelRow, cellIndex++, "제조팀");
-						this.setCellData(excelRow, cellIndex++, "정규직");
-						this.setCellData(excelRow, cellIndex++, "급여");
-						this.setCellData(excelRow, cellIndex++, "기본급");
+						this.setCellData(excelRow, cellIndex++, "Hong Gil Dong" + i);
+						this.setCellData(excelRow, cellIndex++, "Junior");
+						this.setCellData(excelRow, cellIndex++, "directly");
+						this.setCellData(excelRow, cellIndex++, "Manufacturing team");
+						this.setCellData(excelRow, cellIndex++, "Full-time");
+						this.setCellData(excelRow, cellIndex++, "Payroll");
+						this.setCellData(excelRow, cellIndex++, "salary");
 						this.setCellData(excelRow, cellIndex++, "1800000");
 						this.setCellData(excelRow, cellIndex++, "1800000");
 						this.setCellData(excelRow, cellIndex++, "1800000");
@@ -227,8 +227,8 @@ public static void main(String[] args) throws InvalidFormatException, IOExceptio
 						this.setCellData(excelRow, cellIndex++, "1800000");
 						this.setCellData(excelRow, cellIndex++, "1800000");
 						this.setCellData(excelRow, cellIndex++, "1800000");
-						this.setCellData(excelRow, cellIndex++); // FORMULA 컬럼은 값없이 입력 가능
-						this.setCellData(excelRow, cellIndex++, "비고");
+						this.setCellData(excelRow, cellIndex++); // FORMULA columns can be entered without values
+						this.setCellData(excelRow, cellIndex++, "Summary");
 						
 					}
 					
@@ -253,7 +253,7 @@ public static void main(String[] args) throws InvalidFormatException, IOExceptio
 }
 ```
 
-### Excel 파일 데이터 읽어오기 ###
+### Reading Excel file data ###
 ```java
 package com.anthunt.poi.demo;
 
@@ -358,7 +358,7 @@ public class DemoExcelRead {
 }
 ```
 
-### DB 메타정보를 이용하기 위한 DAO 클래스 ###
+### Database access object class to use database meta information ###
 ```java
 package com.anthunt.poi.demo.db;
 
@@ -439,7 +439,7 @@ public class PoiDemoDAO extends AbstractMapperDAO {
 }
 ```
 
-### DB 메타정보 Query XML ###
+### XML query against metadata in the database ###
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
@@ -611,7 +611,7 @@ public class PoiDemoDAO extends AbstractMapperDAO {
 </mapper>
 ```
 
-### DB 메타정보를 이용해서 Excel 파일 양식 생성 ###
+### Creating Excel template file using DB meta information ###
 ```java
 package com.anthunt.poi.demo;
 
@@ -652,7 +652,7 @@ public class DemoExcelFromDBCreation {
 }
 ```
 
-### DB 메타 데이터를 이용하여 Excel을 생성하고 DB의 데이터를 포함하여 생성하기 ###
+### Creating Excel using DB metadata and creating data including DB data ###
 ```java
 package com.anthunt.poi.demo;
 
@@ -695,7 +695,7 @@ public class DemoExcelDBCreationAndDBData {
 }
 ```
 
-### DB 메타 데이터 양식에 맞는 Excel 파일 읽어서 DB에 저장하기 ###
+### Reading Excel file that fits DB metadata form and saving it in DB ###
 ```java
 package com.anthunt.poi.demo;
 
