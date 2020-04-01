@@ -1,5 +1,7 @@
 # README #
 
+[![Build Status](https://travis-ci.org/anthunt/poi-template-project.svg?branch=master)](https://travis-ci.org/anthunt/poi-template-project)
+
 POI Template Generator Project
 
 ### What is this repository for? ###
