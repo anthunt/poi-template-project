@@ -14,7 +14,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
     </properties>
-
+    
+  	<distributionManagement>
+	   <repository>
+	      <id>bintray-anthunt-com.anthunt.poi</id>
+	      <name>anthunt-com.anthunt.poi</name>
+	      <url>https://api.bintray.com/maven/anthunt/com.anthunt.poi/poi-demo/;publish=1</url>
+	   </repository>
+	</distributionManagement>
+	
     <dependencies>
 
 		<dependency>

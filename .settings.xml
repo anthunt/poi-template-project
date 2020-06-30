@@ -18,11 +18,29 @@
           <snapshots><enabled>true</enabled></snapshots>
         </repository>
         <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-anthunt-com.anthunt.poi</id>
+            <name>bintray</name>
+            <url>https://dl.bintray.com/anthunt/com.anthunt.poi</url>
+        </repository>
+        <repository>
           <id>poi.helper</id>
           <name>Poi Helper Repository</name>
           <url>https://maven.pkg.github.com/anthunt/poi-helper</url>
         </repository>
       </repositories>
+      <pluginRepositories>
+          <pluginRepository>
+              <snapshots>
+                  <enabled>false</enabled>
+              </snapshots>
+              <id>bintray-anthunt-com.anthunt.poi</id>
+              <name>bintray-plugins</name>
+              <url>https://dl.bintray.com/anthunt/com.anthunt.poi</url>
+          </pluginRepository>
+      </pluginRepositories>
     </profile>
   </profiles>
 
@@ -32,5 +50,10 @@
       <username>anthunt</username>
       <password>_GITHUB_TOKEN</password>
     </server>
+    <server>
+	    <id>bintray-anthunt-com.anthunt.poi</id>
+	    <username>anthunt</username>
+	    <password>_BINTRAY_TOKEN</password>
+	</server>
   </servers>
 </settings>
