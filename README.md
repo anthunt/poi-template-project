@@ -2,6 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d596857a18ca4eed8dee7be997fb559d)](https://app.codacy.com/manual/anthunt01/poi-template-project?utm_source=github.com&utm_medium=referral&utm_content=anthunt/poi-template-project&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/anthunt/poi-template-project.svg?branch=master)](https://travis-ci.org/anthunt/poi-template-project)
+![Maven Package](https://github.com/anthunt/poi-template-project/workflows/Maven%20Package/badge.svg)
 
 POI Template Generator Project
 
