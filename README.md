@@ -1,6 +1,6 @@
 # README #
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d596857a18ca4eed8dee7be997fb559d)](https://app.codacy.com/manual/anthunt01/poi-template-project?utm_source=github.com&utm_medium=referral&utm_content=anthunt/poi-template-project&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/defe1d8d51234e57813f59ab5a398de7)](https://www.codacy.com/gh/anthunt/poi-template-project/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=anthunt/poi-template-project&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/anthunt/poi-template-project.svg?branch=master)](https://travis-ci.org/anthunt/poi-template-project)
 ![Maven Package](https://github.com/anthunt/poi-template-project/workflows/Maven%20Package/badge.svg)
 ![Java CI with Maven](https://github.com/anthunt/poi-template-project/workflows/Java%20CI%20with%20Maven/badge.svg)
@@ -12,7 +12,7 @@ POI Template Generator Project
 * Quick summary
 	Library project to support Excel creation / reading using POI library
 * Version
-	0.0.1
+	0.0.2
 
 ## Usage ##
 

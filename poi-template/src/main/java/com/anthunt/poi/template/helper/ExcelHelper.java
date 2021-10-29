@@ -128,7 +128,7 @@ public class ExcelHelper {
 	
 	public static Cell createDataCellValue(Sheet sheet, Row row, int cellIndex, ExcelColumn excelColumn, String value) {
 		Cell cell = ExcelHelper.getCell(row, cellIndex);
-		cell.setCellType(excelColumn.getDataCellType());
+		//cell.setCellType(excelColumn.getDataCellType());
 		cell.setCellStyle(excelColumn.getDataCellStyle().getXSSFCellStyle());
 		if(excelColumn.getDataExplicits() != null) {
 			ExcelHelper.setDataValidation(sheet, excelColumn.getDataExplicits(), cell.getRowIndex(), cell.getRowIndex(), cell.getColumnIndex(), cell.getColumnIndex());

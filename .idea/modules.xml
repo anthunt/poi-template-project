@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/poi-demo/poi-demo.iml" filepath="$PROJECT_DIR$/poi-demo/poi-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/poi-mapper/poi-mapper.iml" filepath="$PROJECT_DIR$/poi-mapper/poi-mapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/poi-template/poi-template.iml" filepath="$PROJECT_DIR$/poi-template/poi-template.iml" />
+      <module fileurl="file://$PROJECT_DIR$/poi-template-project.iml" filepath="$PROJECT_DIR$/poi-template-project.iml" />
+    </modules>
+  </component>
+</project>
